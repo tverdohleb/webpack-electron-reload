@@ -1,4 +1,4 @@
-name: Node.js Package
+name: Lint package [on PR]
 
 on: [pull_request]
 
