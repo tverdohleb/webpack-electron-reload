@@ -1,0 +1,6 @@
+dist
+.idea
+.gitignore
+.prettierignore
+LICENSE
+yarn.lock
