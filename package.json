@@ -1,6 +1,6 @@
 {
   "name": "webpack-electron-reload",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Webpack plugin which restarts electron process on recompile",
   "main": "dist/index.js",
   "files": [
