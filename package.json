@@ -39,7 +39,7 @@
     }
   },
   "dependencies": {
-    "cross-spawn": "^6.0.5"
+    "cross-spawn": "^7.0.0"
   },
   "peerDependencies": {
     "electron": ">=0.0.0"
