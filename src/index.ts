@@ -56,7 +56,11 @@ class ProcessManager {
   restart() {
     if (this.electronProc) {
       this.info(`killing electron process: ${this.electronProc.pid}`);
-      process.kill(this.electronProc.pid);
+      try {
+        process.kill(this.electronProc.pid);
+      } catch (error) {
+        console.error(error)
+      }
       this.info('respawning electron process..');
       this.spawn(this.opt.spawnOpt);
     }
