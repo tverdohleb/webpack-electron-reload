@@ -59,7 +59,7 @@ class ProcessManager {
       try {
         process.kill(this.electronProc.pid);
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
       this.info('respawning electron process..');
       this.spawn(this.opt.spawnOpt);
