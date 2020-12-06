@@ -4,8 +4,9 @@ import { ChildProcess, SpawnOptions } from 'child_process';
 interface IOptions {
   electron: string;
   path: string;
-  spawnOpt: { stdio: 'inherit' };
+  spawnOpt: { stdio: ['inherit', 'inherit', 'inherit', 'ipc'] };
   useGlobalElectron?: boolean;
+  killOnClose?: boolean;
 }
 
 class ProcessManager {
@@ -30,7 +31,7 @@ class ProcessManager {
       ...{
         electron,
         path: process.cwd(),
-        spawnOpt: { stdio: 'inherit' },
+        spawnOpt: { stdio: ['inherit', 'inherit', 'inherit', 'ipc'] },
       },
       ...(options || {}),
     };
@@ -39,6 +40,7 @@ class ProcessManager {
   protected spawn(spawnOpt: SpawnOptions) {
     const args = ['-r process'];
     this.electronProc = spawn(this.opt.electron, args.concat([this.opt.path]), spawnOpt);
+    this.opt.killOnClose && this.killWatcher();
     this.info(`started electron process: ${this.electronProc!.pid}`);
   }
 
@@ -63,6 +65,15 @@ class ProcessManager {
       }
       this.info('respawning electron process..');
       this.spawn(this.opt.spawnOpt);
+    }
+  }
+  killWatcher() {
+    if (this.electronProc) {
+      this.electronProc.on('message', ({ msg }) => {
+        if (msg === 'close') {
+          process.kill(process.pid);
+        }
+      });
     }
   }
 }
